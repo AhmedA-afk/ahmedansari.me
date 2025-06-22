@@ -1,10 +1,10 @@
 <svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <clipPath id="rounded-corners">
-      <rect width="256" height="256" rx="50" ry="50" />
+    <clipPath id="circle-clip">
+      <circle cx="128" cy="128" r="128" />
     </clipPath>
   </defs>
-  <g clip-path="url(#rounded-corners)">
+  <g clip-path="url(#circle-clip)">
     <rect width="256" height="256" fill="#222"/>
     <g transform="translate(28, 28) scale(0.8)">
       <g stroke-width="10">
