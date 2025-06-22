@@ -1,0 +1,13 @@
+PLACEHOLDER FOR AHMED'S HERO IMAGE
+
+This file serves as a placeholder for ahmed-hero.jpg.
+Please replace this with the actual hero image from the Wix site.
+
+Expected image: Professional photo of Ahmed Ansari
+Recommended size: 400x600px or similar portrait orientation
+Format: JPG or PNG
+
+The image should be placed at: /public/ahmed-hero.jpg
+
+Current image URL from Wix site:
+https://static.wixstatic.com/media/3c1d24_1b70e0eed55046928043ed36f45b5a8b~mv2.jpg
