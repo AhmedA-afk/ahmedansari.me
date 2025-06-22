@@ -1,0 +1,46 @@
+.skills-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding: 2rem;
+  background-color: #fff;
+  color: #333;
+}
+
+.skills-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.skills-list li {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.checkmark {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #333;
+  color: #333;
+  text-align: center;
+  line-height: 24px;
+  margin-right: 1rem;
+  font-weight: bold;
+}
+
+.skills-footer {
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  color: #333;
+} 

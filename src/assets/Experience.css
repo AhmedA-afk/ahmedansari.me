@@ -1,0 +1,75 @@
+.experience-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.experience-content {
+  margin-bottom: 2rem;
+}
+
+.experience-date {
+  font-size: 1rem;
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+.experience-title {
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.experience-company {
+  font-size: 1.1rem;
+  font-style: italic;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.experience-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #777;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  font-size: 2.5rem;
+  color: #aaa;
+  cursor: pointer;
+  padding: 0 1rem;
+  transition: color 0.2s ease;
+}
+
+.arrow:hover {
+  color: #333;
+}
+
+.left-arrow {
+  left: -2rem;
+}
+
+.right-arrow {
+  right: -2rem;
+}
+
+.experience-footer {
+  margin-top: 3rem;
+  border-top: 1px solid #eee;
+  padding-top: 1.5rem;
+}
+
+.experience-footer h4 {
+  font-size: 1rem;
+  color: #999;
+  letter-spacing: 2px;
+  font-weight: 500;
+} 
