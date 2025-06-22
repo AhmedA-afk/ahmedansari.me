@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../assets/home.css";
+import profileImg from "../assets/profile.jpg";
 
 const Home = () => (
   <>
@@ -9,7 +10,7 @@ const Home = () => (
     <main className="wix-layout">
       {/* Left Column - Profile Image */}
       <section className="left-column">
-        <img src="/src/assets/profile.jpg" alt="Ahmed Ansari" className="profile-image" />
+        <img src={profileImg} alt="Ahmed Ansari" className="profile-image" />
       </section>
 
       {/* Center Column - Main Content */}
@@ -27,7 +28,7 @@ const Home = () => (
 
       {/* Right Column - Workbench Image */}
       <section className="right-column">
-        <img src="/src/assets/profile.jpg" alt="Ahmed's Workbench" className="workbench-image" />
+        <img src={profileImg} alt="Ahmed's Workbench" className="workbench-image" />
       </section>
     </main>
     <Footer />
