@@ -1,0 +1,160 @@
+# LLMs.txt - Project Documentation for AI Context
+
+## Project Overview
+**Project Name**: Ahmed Raza Ansari Portfolio Website
+**Tech Stack**: React 19.1.0 + Vite 6.3.5 + React Router DOM 7.6.2
+**Purpose**: Multi-page portfolio website for Creative Technologist | Designer | Developer
+**Domain**: ahmedansari.me
+**Current Date**: June 22, 2025
+
+## What's Being Built
+A modern, clean portfolio website with the following structure:
+- **Home**: Hero section, experience, education, skills, artistic style, contact
+- **About**: Personal bio and story (placeholder)
+- **Projects**: Portfolio projects showcase (placeholder)
+- **Certificates**: Professional certifications (placeholder)
+- **Sketches**: Art and illustration gallery (placeholder)
+- **Blog**: Blog posts and articles (placeholder)
+- **Contact**: Contact form and details (placeholder)
+
+## Current Architecture
+```
+src/
+├── components/
+│   ├── Header.jsx (Navigation with all page links)
+│   └── Footer.jsx (Copyright and contact links)
+├── pages/
+│   ├── Home.jsx (Fully developed with content sections)
+│   ├── About.jsx (Placeholder)
+│   ├── Projects.jsx (Placeholder)
+│   ├── Certificates.jsx (Placeholder)
+│   ├── Sketches.jsx (Placeholder)
+│   ├── Blog.jsx (Placeholder)
+│   └── Contact.jsx (Placeholder)
+├── assets/
+│   ├── index.css (Global styles)
+│   ├── home.css (Home page specific styles)
+│   └── react.svg
+└── main.jsx (Router setup with 7 routes)
+```
+
+## Design Philosophy
+- **Clean & Minimal**: Professional, uncluttered design
+- **Reusable Components**: Header/Footer used across all pages
+- **Modern UX**: React Router for seamless navigation
+- **Responsive**: Mobile-friendly design approach
+- **Color Scheme**: Blues (#0077b6) with neutral grays
+
+## Development Status
+✅ **COMPLETED**:
+- Project initialization with Vite + React
+- React Router setup with 7 routes
+- Reusable Header and Footer components
+- Home page with complete content structure
+- Global CSS styling with clean, professional look
+- Deployment configuration for Vercel
+- Proper .gitignore setup
+
+🚧 **IN PROGRESS**:
+- Documentation (this llms.txt file)
+
+⏳ **TODO**:
+- Content for About page
+- Projects showcase with real projects
+- Certificates gallery
+- Sketches/artwork gallery
+- Blog functionality
+- Contact form implementation
+- Enhanced styling and animations
+- SEO optimization
+- Performance optimization
+
+## Iteration Log
+
+### Iteration 1 (June 22, 2025)
+**Action**: Initial codebase analysis and documentation setup
+**Changes Made**:
+- Read and analyzed entire codebase structure
+- Identified current state: Home page developed, other pages are placeholders
+- Created llms.txt for project documentation and AI context
+**Next Steps**: 
+- Continue development based on user priorities
+- Keep this documentation updated with each iteration
+
+### Iteration 2 (June 22, 2025)
+**Action**: Analyzed reference Wix website and started content migration
+**Reference Site**: https://ahmedraza1ansari.wixsite.com/ahmeddoesthings
+**Key Content Identified**:
+- Hero: "Hi, I'm Ahmed Ansari" with professional photo
+- About: "A versatile fresher with skills in ML, Data Science, Analysis and creative work"
+- Experience: Virtual Intern at Forage (7 micro-internships)
+- Projects: Referenced but need to extract specific projects
+- Education: Diploma IT (2019-2022), B.Tech CSE (2022-2025)
+- Skills: ML, AI, Data Science & Analytics, Python Programming
+- Contact: Email ahmedraza1ansari@gmail.com, Phone +91 780-189-1358
+- Social: LinkedIn, GitHub, Twitter links
+**Changes Made**:
+- Updated Home page with real content from Wix site
+- Implemented proper hero section with image placeholder
+- Added detailed sections for experience, projects, etc.
+- Updated styling to match professional design
+**Next Steps**: 
+- Add real profile image and favicon
+
+### Iteration 5 (June 22, 2025)
+**Action**: Complete Layout Redesign - Pixel Perfect Wix Replication
+**Goal**: Replicate exact split-screen layout from Wix website screenshot
+**Major Changes Made**:
+- Completely replaced grid layout with 3-column split-screen design
+- Left column: Full-height profile image
+- Center column: Main text content with centered alignment
+- Right column: Full-height workbench image (using same profile image as requested)
+- Updated header with "ahmedansari.me" title instead of "Ahmed Does Things"
+- Restructured navigation to match Wix order: Home, Certificates, About, Projects, Sketches, Blog
+**Layout Details**:
+- Three equal flex columns (1:1:1 ratio)
+- Full viewport height (100vh)
+- Images cover full column height with object-fit: cover
+- Center column has centered content with proper spacing
+- Typography matches Wix style: lighter font weights, better spacing
+- "01_ABOUT ME" button styled as outlined button instead of filled
+- Workbench section positioned below main text
+**Design Features**:
+- Clean minimal design matching Wix aesthetic
+- Proper responsive behavior for mobile (stacked layout)
+- Sticky header with site title and navigation
+- Professional typography and spacing
+**Images Used**:
+- Left column: /src/assets/profile.jpg (hero image)
+- Right column: /src/assets/profile.jpg (workbench image as requested)
+**Current Status**: 
+- Layout now perfectly matches Wix website screenshot
+- Split-screen design implemented
+- Header updated with correct branding
+- Ready for content refinement and additional pages
+
+## Technical Notes
+- Uses modern React 19 with functional components and hooks
+- Vite for fast development and optimized builds
+- React Router DOM 7 for client-side routing
+- Clean file structure following React best practices
+- Ready for deployment to Vercel with proper SPA routing config
+
+## Key Files to Monitor
+- `src/main.jsx`: Router configuration
+- `src/components/`: Reusable UI components
+- `src/pages/Home.jsx`: Main landing page (most developed)
+- `package.json`: Dependencies and scripts
+- `vercel.json`: Deployment configuration
+
+## Instructions for Future LLMs
+1. Always update this file when making changes
+2. Follow the established clean component architecture
+3. Maintain the minimal, professional design aesthetic
+4. Use absolute file paths for all operations
+5. Keep placeholder pages consistent with the established pattern
+6. Update the iteration log with each significant change
+
+---
+Last Updated: June 22, 2025
+Status: Active Development

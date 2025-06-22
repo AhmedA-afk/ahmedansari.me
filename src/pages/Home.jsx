@@ -6,39 +6,28 @@ import "../assets/home.css";
 const Home = () => (
   <>
     <Header />
-    <main className="main-content">
-      <section className="hero">
-        <h1>Ahmed Raza Ansari</h1>
-        <p>Creative Technologist | Designer | Developer</p>
+    <main className="wix-layout">
+      {/* Left Column - Profile Image */}
+      <section className="left-column">
+        <img src="/src/assets/profile.jpg" alt="Ahmed Ansari" className="profile-image" />
       </section>
-      <section className="experience">
-        <h2>Experience</h2>
-        <ul>
-          <li>Freelance Web Developer & Designer</li>
-          <li>UI/UX Projects</li>
-        </ul>
+
+      {/* Center Column - Main Content */}
+      <section className="center-column">
+        <div className="hero-text-content">
+          <h1>Hi, I'm Ahmed Ansari</h1>
+          <p>A versatile fresher with skills in Machine Learning, Data Science, Analysis and creative work. I specialize in NLP and LLM models and am passionate about creating interactive and responsive websites too. Welcome to my portfolio!</p>
+          <a href="/about" className="about-link">01_ABOUT ME &gt;</a>
+        </div>
+        
+        <div className="workbench-section">
+          <h2>02_MY Workbench</h2>
+        </div>
       </section>
-      <section className="education">
-        <h2>Education</h2>
-        <ul>
-          <li>Bachelor of Design, NIFT</li>
-        </ul>
-      </section>
-      <section className="skills">
-        <h2>Skills</h2>
-        <ul>
-          <li>Web Development</li>
-          <li>UI/UX Design</li>
-          <li>Art & Illustration</li>
-        </ul>
-      </section>
-      <section className="artistic-style">
-        <h2>Artistic Style</h2>
-        <p>Minimal, expressive, and functional design with a focus on user experience.</p>
-      </section>
-      <section className="contact">
-        <h2>Contact</h2>
-        <p>Email: <a href="mailto:ahmedraza1ansari@gmail.com">ahmedraza1ansari@gmail.com</a></p>
+
+      {/* Right Column - Workbench Image */}
+      <section className="right-column">
+        <img src="/src/assets/profile.jpg" alt="Ahmed's Workbench" className="workbench-image" />
       </section>
     </main>
     <Footer />

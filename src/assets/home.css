@@ -1,28 +1,128 @@
-/* Home page specific styles */
-.hero {
+/* Wix-style Split Screen Layout */
+.wix-layout {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Left Column - Profile Image */
+.left-column {
+  flex: 1;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Center Column - Main Content */
+.center-column {
+  flex: 1;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 3rem;
   text-align: center;
-  margin-top: 2rem;
 }
 
-.hero h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+.hero-text-content h1 {
+  font-size: 3.5rem;
+  font-weight: 300;
+  color: #333;
+  margin-bottom: 2rem;
+  line-height: 1.2;
 }
 
-.hero p {
-  font-size: 1.25rem;
-  color: #555;
+.hero-text-content p {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 3rem;
+  max-width: 80%;
 }
 
-section {
-  margin: 2rem 0;
+.about-link {
+  display: inline-block;
+  padding: 12px 24px;
+  background: transparent;
+  border: 2px solid #333;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
 }
 
-section h2 {
-  color: #0077b6;
-  margin-bottom: 0.5rem;
+.about-link:hover {
+  background: #333;
+  color: white;
 }
 
-section ul {
-  padding-left: 1.2rem;
+.workbench-section {
+  margin-top: 4rem;
+  text-align: center;
+}
+
+.workbench-section h2 {
+  font-size: 1.2rem;
+  color: #666;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+/* Right Column - Workbench Image */
+.right-column {
+  flex: 1;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+.workbench-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .wix-layout {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .left-column, .right-column {
+    flex: none;
+    height: 40vh;
+  }
+  
+  .center-column {
+    flex: none;
+    padding: 2rem 1.5rem;
+  }
+  
+  .hero-text-content h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero-text-content p {
+    max-width: 100%;
+    font-size: 1rem;
+  }
 }
