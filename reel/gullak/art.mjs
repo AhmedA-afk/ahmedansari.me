@@ -78,63 +78,70 @@ export function coinSpray(ctx, t, t0, x, y, n, o = {}) {
 }
 
 // ---------------------------------------------------------------- the gullak
-const CLAY = { warm: ["#F0A870", "#C86B3A", "#8E3F20"], queen: ["#D96C6C", "#9C2B3A", "#5A1626"], soft: ["#F3B98A", "#D68257", "#9C5230"], golden: ["#F7C58A", "#E08A4A", "#A8532A"] };
+// a real Indian gullak: unglazed terracotta, a small knob on top, broad shoulders tapering to a foot ring,
+// a horizontal coin slit on the shoulder, bands scratched into the clay. Rr = envelope radius (it fits a circle of ~Rr).
+const CLAY = { warm: ["#E59A6A", "#C26A40", "#8A4326"], queen: ["#C76A66", "#933A3C", "#5A1C26"], soft: ["#EDAA80", "#CF7E54", "#94512F"], golden: ["#F0B07A", "#D6844C", "#9E5428"] };
 const STONE = ["#A3AAB3", "#6F7680", "#363B42"];
-const rockR = Array.from({ length: 14 }, (_, i) => .78 + .26 * R(i, 31));
+const rockR = Array.from({ length: 14 }, (_, i) => .74 + .2 * R(i, 31));
+const HALF = [[0, -.99], [.07, -.985], [.13, -.955], [.165, -.9], [.15, -.845], [.1, -.81], [.11, -.75], [.17, -.67], [.36, -.57], [.58, -.43], [.74, -.22], [.82, .02], [.79, .26], [.68, .48], [.52, .66], [.38, .79], [.32, .84], [.37, .87], [.37, .975], [.2, .99]];
+const PROFILE = [...HALF, [-.2, .99], ...HALF.slice(1, -1).reverse().map(([x, y]) => [-x, y])];
+export const SLIT_Y = -.47;
 function potPts(Rr, m, lump, t) {
-  const N = 60, pts = [];
-  for (let i = 0; i < N; i++) {
-    const a = i / N * TAU, rk = rockR[Math.floor(a / TAU * 14) % 14] * (1 - ((a / TAU * 14) % 1)) + rockR[(Math.floor(a / TAU * 14) + 1) % 14] * ((a / TAU * 14) % 1);
-    let r = lerp(1, rk, m); r *= 1 + lump * (.22 * noise1(a * 2.3 + 4) + .12 * noise1(a * 5.1 + t * .6));
-    pts.push([Math.cos(a) * Rr * r, Math.sin(a) * Rr * .92 * r]);
-  }
-  return pts;
+  return PROFILE.map(([px, py], i) => {
+    const a = Math.atan2(py, px), r0 = Math.hypot(px, py), u = ((a / TAU) % 1 + 1) % 1 * 14, k = Math.floor(u) % 14, f = u - Math.floor(u);
+    const rk = (rockR[k] * (1 - f) + rockR[(k + 1) % 14] * f) * .95;
+    let r = lerp(r0, rk, m); r *= 1 + lump * (.18 * noise1(a * 2.3 + 4) + .1 * noise1(a * 5.1 + t * .6));
+    return [Math.cos(a) * r * Rr, Math.sin(a) * r * Rr];
+  });
 }
-const SEAMS = [   // unit-radius polylines (x, y in R): where she mended him
-  [[0, -.9], [.1, -.62], [-.06, -.3], [.12, -.02], [.02, .3], [-.1, .62], [0, .9]],
-  [[-.88, -.2], [-.55, -.05], [-.3, .12], [-.06, -.3]],
-  [[.9, .15], [.55, .02], [.3, .3], [.02, .3]],
-  [[-.5, .62], [-.3, .45], [-.1, .62]],
+const SEAMS = [   // unit-radius polylines: where she mended him
+  [[0, -.47], [.08, -.3], [-.05, -.1], [.1, .1], [.0, .32], [-.08, .55], [0, .8]],
+  [[-.7, -.2], [-.45, -.08], [-.25, .08], [-.05, -.1]],
+  [[.72, .1], [.45, .02], [.25, .25], [.0, .32]],
+  [[-.42, .55], [-.25, .42], [-.08, .55]],
 ];
-// state keys: fill halo web crack stone lump kint broken hollow pulse tint seed
+// state keys: fill halo web crack stone lump kint broken hollow pulse tint seed appear
 export function gullak(ctx, x, y, Rr, st = {}, t = 0, o = {}) {
   const { appear = 1, fill: fl = .3, halo = .4, web = 0, crack = 0, stone = 0, lump = 0, kint = 0, broken = -1, pulse = 0, tint = "warm", tilt = 0, floor = Rr * 5 } = st;
-  const pal = CLAY[tint] || CLAY.warm, cx = x, cy = y;
+  const pal = CLAY[tint] || CLAY.warm;
   if (appear < .01) return;
-  ctx.save(); ctx.translate(cx, cy); ctx.rotate(tilt); ctx.globalAlpha *= appear; ctx.scale(.6 + .4 * appear, .6 + .4 * appear);
-  if (broken >= 0) { shatter(ctx, Rr, broken, pal, floor, st.seed ?? 1); ctx.restore(); return; }
+  ctx.save(); ctx.translate(x, y); ctx.rotate(tilt); ctx.globalAlpha *= appear; ctx.scale(.6 + .4 * appear, .6 + .4 * appear);
+  if (broken >= 0) { shatter(ctx, Rr * .8, broken, pal, floor, st.seed ?? 1); ctx.restore(); return; }
   // halo: love is light
   const hs = (1 - stone) * (.10 + .55 * fl) * (.5 + halo) + pulse * .35 * (1 - stone);
   if (hs > .01) { const g = ctx.createRadialGradient(0, 0, Rr * .3, 0, 0, Rr * (1.5 + fl * 1.5 + pulse * .6)); g.addColorStop(0, `rgba(255,208,110,${clamp(hs, 0, .8)})`); g.addColorStop(1, "rgba(255,208,110,0)"); ctx.fillStyle = g; const e = Rr * 4; ctx.fillRect(-e, -e, e * 2, e * 2); }
-  const sc = 1 + pulse * .07; ctx.scale(sc, sc);
-  const body = potPts(Rr, stone, lump, t), path = () => { ctx.beginPath(); body.forEach(([px, py], i) => i ? ctx.lineTo(px, py) : ctx.moveTo(px, py)); ctx.closePath(); };
-  // body
+  const sc = 1 + pulse * .06; ctx.scale(sc, sc);
+  const body = potPts(Rr, stone, lump, t), path = () => core.smooth(ctx, body, true);
   const c0 = mixc(pal[0], STONE[0], stone), c1 = mixc(pal[1], STONE[1], stone), c2 = mixc(pal[2], STONE[2], stone);
-  const g = ctx.createRadialGradient(-Rr * .32, -Rr * .38, Rr * .1, 0, 0, Rr * 1.12); g.addColorStop(0, c0); g.addColorStop(.55, c1); g.addColorStop(1, c2);
-  paint(ctx, path, g, { ew: Math.max(2.4, Rr * .075), grain: .38, lit: 0, c: [0, 0], sz: Rr });
-  // light from within: warm glow through the clay, rising with love
+  const g = ctx.createRadialGradient(-Rr * .3, -Rr * .3, Rr * .05, 0, Rr * .05, Rr * 1.05); g.addColorStop(0, c0); g.addColorStop(.55, c1); g.addColorStop(1, c2);
+  paint(ctx, path, g, { ew: Math.max(2.2, Rr * .06), grain: .45, lit: 0, c: [0, 0], sz: Rr });
   ctx.save(); path(); ctx.clip();
+  // throwing rings: faint horizontal tool marks from the potter's wheel
+  if (stone < .9) { ctx.globalAlpha = .22 * (1 - stone); ctx.strokeStyle = c2; ctx.lineWidth = Math.max(.8, Rr * .012); for (let k = 0; k < 11; k++) { const yy = Rr * (-.5 + k * .13); ctx.beginPath(); ctx.ellipse(0, yy, Rr * .9, Rr * .05, 0, 0, Math.PI); ctx.stroke(); } ctx.globalAlpha = 1; }
+  // light from within: warm glow through the clay, rising with love
   const inner = (1 - stone) * (.10 + .6 * fl) + pulse * .4;
-  if (inner > .01) { const gi = ctx.createRadialGradient(0, Rr * (.45 - fl * .25), 0, 0, Rr * .2, Rr * 1.05); gi.addColorStop(0, `rgba(255,230,140,${clamp(inner, 0, .95)})`); gi.addColorStop(.6, `rgba(255,170,70,${clamp(inner * .55, 0, .6)})`); gi.addColorStop(1, "rgba(255,150,60,0)"); ctx.globalCompositeOperation = "lighter"; ctx.fillStyle = gi; ctx.fillRect(-Rr * 1.3, -Rr * 1.3, Rr * 2.6, Rr * 2.6); ctx.globalCompositeOperation = "source-over"; }
-  if (stone > .02) { // stone: cold facets
-    ctx.globalAlpha = stone; for (let i = 0; i < 9; i++) { const a = R(i, 3) * TAU, d = Rr * (.15 + .6 * R(i, 4)), w = Rr * (.25 + .3 * R(i, 5)); ctx.beginPath(); ctx.moveTo(Math.cos(a) * d, Math.sin(a) * d); ctx.lineTo(Math.cos(a + 1.1) * (d + w), Math.sin(a + 1.1) * (d + w)); ctx.lineTo(Math.cos(a - .9) * (d + w * .7), Math.sin(a - .9) * (d + w * .7)); ctx.closePath(); ctx.fillStyle = i % 2 ? "rgba(255,255,255,.07)" : "rgba(0,0,0,.18)"; ctx.fill(); } ctx.globalAlpha = 1; }
-  // painted band: dots and a tiny zig-zag, like a real village gullak
+  if (inner > .01) { const gi = ctx.createRadialGradient(0, Rr * (.35 - fl * .25), 0, 0, Rr * .15, Rr * .95); gi.addColorStop(0, `rgba(255,228,140,${clamp(inner, 0, .9)})`); gi.addColorStop(.6, `rgba(255,170,70,${clamp(inner * .5, 0, .55)})`); gi.addColorStop(1, "rgba(255,150,60,0)"); ctx.globalCompositeOperation = "lighter"; ctx.fillStyle = gi; ctx.fillRect(-Rr * 1.3, -Rr * 1.3, Rr * 2.6, Rr * 2.6); ctx.globalCompositeOperation = "source-over"; }
+  if (stone > .02) { ctx.globalAlpha = stone; for (let i = 0; i < 9; i++) { const a = R(i, 3) * TAU, d = Rr * (.12 + .5 * R(i, 4)), w = Rr * (.22 + .25 * R(i, 5)); ctx.beginPath(); ctx.moveTo(Math.cos(a) * d, Math.sin(a) * d); ctx.lineTo(Math.cos(a + 1.1) * (d + w), Math.sin(a + 1.1) * (d + w)); ctx.lineTo(Math.cos(a - .9) * (d + w * .7), Math.sin(a - .9) * (d + w * .7)); ctx.closePath(); ctx.fillStyle = i % 2 ? "rgba(255,255,255,.07)" : "rgba(0,0,0,.18)"; ctx.fill(); } ctx.globalAlpha = 1; }
+  // bands scratched into the wet clay: a chevron band on the shoulder, a row of ticks low on the belly
   const bandA = 1 - stone * 1.4;
-  if (bandA > 0) { ctx.globalAlpha = bandA * .9; for (let k = -5; k <= 5; k++) { const ph = k / 5 * 1.15, px = Math.sin(ph) * Rr * .93, py = Rr * .1 + (1 - Math.cos(ph)) * Rr * .16; ellipse(ctx, px, py, Rr * .045 * Math.cos(ph * .8) + .6, Rr * .045, 0); ctx.fillStyle = "#FBEFD5"; ctx.fill(); }
-    ctx.beginPath(); for (let k = -6; k <= 6; k++) { const ph = k / 6 * 1.2, px = Math.sin(ph) * Rr * .93, py = Rr * .36 + (1 - Math.cos(ph)) * Rr * .22 + (k % 2 ? -Rr * .05 : Rr * .05); k === -6 ? ctx.moveTo(px, py) : ctx.lineTo(px, py); } ctx.lineWidth = Math.max(1, Rr * .035); ctx.strokeStyle = "rgba(251,239,213,.8)"; ctx.stroke(); ctx.globalAlpha = 1; }
-  // soft specular
-  ctx.save(); ctx.globalAlpha = .5 * (1 - stone * .6); ctx.beginPath(); ctx.ellipse(-Rr * .42, -Rr * .38, Rr * .1, Rr * .3, rad(35), 0, TAU); ctx.fillStyle = "rgba(255,246,225,.75)"; ctx.fill(); ctx.restore();
+  if (bandA > 0) { ctx.globalAlpha = bandA;
+    const incise = (pts) => { for (const [col, dy] of [["rgba(255,225,190,.35)", Rr * .012], [mixc(pal[2], "#3A1A0C", .3), 0]]) { ctx.beginPath(); pts.forEach(([px, py], i) => i ? ctx.lineTo(px, py + dy) : ctx.moveTo(px, py + dy)); ctx.lineWidth = Math.max(1, Rr * .022); ctx.strokeStyle = col; ctx.stroke(); } };
+    const arcY = (x0, base) => base + (x0 / Rr) ** 2 * Rr * .09;
+    for (const base of [-.33, -.19].map((v) => v * Rr)) incise(Array.from({ length: 25 }, (_, i) => { const xx = (-1 + i / 12) * Rr * .74; return [xx, arcY(xx, base)]; }));
+    incise(Array.from({ length: 19 }, (_, i) => { const xx = (-1 + i / 9) * Rr * .72; return [xx, arcY(xx, -.26 * Rr) + (i % 2 ? -Rr * .055 : Rr * .055)]; }));
+    for (let i = -8; i <= 8; i++) { const xx = i / 8 * Rr * .66, yy = arcY(xx, .32 * Rr); incise([[xx - Rr * .02, yy - Rr * .05], [xx + Rr * .02, yy + Rr * .05]]); }
+    ctx.globalAlpha = 1; }
+  // matte sheen
+  ctx.save(); ctx.globalAlpha = .28 * (1 - stone * .6); ctx.beginPath(); ctx.ellipse(-Rr * .38, -Rr * .12, Rr * .1, Rr * .32, rad(15), 0, TAU); ctx.fillStyle = "rgba(255,240,220,.7)"; ctx.fill(); ctx.restore();
   ctx.restore();
-  // collar + slot
-  const cw = Rr * .46, cy2 = -Rr * (.86 + .02);
-  const colPath = () => { ctx.beginPath(); ctx.ellipse(0, cy2, cw, Rr * .13, 0, 0, TAU); };
-  paint(ctx, colPath, mixc(pal[1], STONE[1], stone), { ew: Math.max(2, Rr * .06), grain: .3, lit: .1, sz: Rr * .5, c: [0, cy2] });
-  ctx.beginPath(); ctx.ellipse(0, cy2 - Rr * .005, cw * .62, Rr * .05, 0, 0, TAU); ctx.fillStyle = "#1A0D07"; ctx.fill();
-  if (pulse > 0) { ctx.beginPath(); ctx.ellipse(0, cy2, cw * .62, Rr * .05, 0, 0, TAU); ctx.fillStyle = `rgba(255,220,120,${pulse * .9})`; ctx.fill(); }
-  // cracks (mid-fight) and gold seams (after mending)
-  if (crack > .01) drawSeam(ctx, [[0, -.9], [.08, -.62], [-.07, -.34], [.1, -.08], [-.02, .22], [.07, .5]], Rr, crack, Math.max(1.6, Rr * .045), INKC, null);
-  if (crack > .5) drawSeam(ctx, [[.5, -.55], [.32, -.3], [.4, -.05]], Rr, (crack - .5) * 2, Math.max(1.2, Rr * .035), INKC, null);
-  if (kint > .01) SEAMS.forEach((s, i) => drawSeam(ctx, s, Rr, clamp(kint * 1.6 - i * .2, 0, 1), Math.max(2, Rr * .06), "#8A5A14", "#FFD66B"));
+  // the coin slit on the shoulder
+  const sy = SLIT_Y * Rr, sw = Rr * .2;
+  ctx.beginPath(); ctx.moveTo(-sw, sy + Rr * .01); ctx.quadraticCurveTo(0, sy - Rr * .035, sw, sy + Rr * .01); ctx.quadraticCurveTo(0, sy + Rr * .03, -sw, sy + Rr * .01); ctx.closePath(); ctx.fillStyle = "#1E0E07"; ctx.fill();
+  ctx.beginPath(); ctx.moveTo(-sw, sy + Rr * .025); ctx.quadraticCurveTo(0, sy + Rr * .05, sw, sy + Rr * .025); ctx.lineWidth = Math.max(1, Rr * .015); ctx.strokeStyle = "rgba(255,225,190,.4)"; ctx.stroke();
+  if (pulse > 0) { ctx.beginPath(); ctx.ellipse(0, sy, sw, Rr * .03, 0, 0, TAU); ctx.fillStyle = `rgba(255,220,120,${pulse * .9})`; ctx.fill(); }
+  if (crack > .01) drawSeam(ctx, [[0, -.47], [.07, -.3], [-.06, -.12], [.09, .06], [-.02, .28], [.06, .5]], Rr, crack, Math.max(1.6, Rr * .04), INKC, null);
+  if (crack > .5) drawSeam(ctx, [[.45, -.32], [.3, -.15], [.38, .05]], Rr, (crack - .5) * 2, Math.max(1.2, Rr * .03), INKC, null);
+  if (kint > .01) SEAMS.forEach((sm, i) => drawSeam(ctx, sm, Rr, clamp(kint * 1.6 - i * .2, 0, 1), Math.max(2, Rr * .055), "#8A5A14", "#FFD66B"));
   if (web > .02) cobweb(ctx, Rr, web, t);
   ctx.restore();
 }
@@ -149,7 +156,7 @@ function drawSeam(ctx, pts, Rr, k, w, dark, gold) {
 }
 function cobweb(ctx, Rr, k, t) {
   const a = clamp(k * 1.2, 0, 1); ctx.save(); ctx.globalAlpha = .8 * a; ctx.strokeStyle = "rgba(90,84,76,.8)"; ctx.lineWidth = Math.max(1.2, Rr * .03); ctx.lineCap = "round";
-  const o = [-.3, -.88];
+  const o = [-.3, SLIT_Y];
   const rays = [[-1.15, -1.55], [-.6, -2.0], [.05, -2.15], [.7, -1.95], [1.2, -1.5], [1.35, -.95], [-1.35, -.9]];
   const rk = ss(0, .6, k);
   rays.forEach(([rx, ry]) => { ctx.beginPath(); ctx.moveTo(o[0] + .3 * Rr, o[1] * Rr + .02); ctx.lineTo(lerp(o[0] * Rr + .3 * Rr, rx * Rr, rk), lerp(o[1] * Rr, ry * Rr, rk)); ctx.stroke(); });

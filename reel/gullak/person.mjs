@@ -148,7 +148,7 @@ export function person(ctx, x, y, s, look, pose = {}, st = null, t = 0) {
   if (g === "armor") { ctx.save(); T(); ctx.clip(); ctx.beginPath(); ctx.moveTo(-sh * 1.0, -torso * .9); ctx.lineTo(0, -torso * .35); ctx.lineTo(sh * 1.0, -torso * .9); ctx.lineWidth = 5; ctx.strokeStyle = look.trim; ctx.stroke(); ctx.restore(); }
   // the heart window: a round opening with the pot nested inside
   const pr = Math.min(d.potR, sh * 1.25), gy = -torso * .6;
-  anchors.chest = bodyPt(0, gy); anchors.slot = bodyPt(0, gy - pr * .88);
+  anchors.chest = bodyPt(0, gy); anchors.slot = bodyPt(0, gy - pr * .47);
   ctx.save(); ctx.translate(0, gy);
   const hollow = st && st.hollow;
   const winR = pr * 1.2;

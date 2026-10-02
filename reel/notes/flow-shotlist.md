@@ -12,7 +12,7 @@ Generate these as **Images** first (prompts in `flow-prompts.md`), then attach t
 ## Rules for every video prompt
 - Start with the **style line**: *Japanese anime film in the style of Kyoto Animation and "A Silent Voice", soft cel shading, delicate line art, cinematic warm light, gentle camera, 24fps feel.*
 - End with: *No dialogue, no text, no subtitles, no music.*
-- The gullak phrase, used word for word: **"a small round terracotta clay pot with a coin slot (a gullak) sits inside his chest where the heart is, visible through a round opening in his shirt, glowing softly from within"** (attach the matching gullak image).
+- The gullak phrase, used word for word: **"a small traditional Indian gullak — an unglazed terracotta money pot with a round knob on top, a wide round belly, a coin slit on its shoulder and bands scratched into the clay — sits inside his chest where the heart is, visible through a round opening in his shirt, glowing softly from within"** (attach the matching gullak image).
 - **Aspect:** shot 1 is **9:16**, everything after it is **16:9**.
 - **Draft with "Veo – Fast"** if it's offered (cheaper). Re-do only the best shots in Quality later.
 - Name files `s01.mp4`, `s02.mp4`… in order.
